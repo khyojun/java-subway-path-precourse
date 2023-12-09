@@ -1,5 +1,6 @@
 package subway.controller;
 
+import subway.domain.Line;
 import subway.domain.TravelResult;
 import subway.domain.TravelStation;
 import subway.domain.StationRelation;
@@ -20,9 +21,9 @@ public class SubwayController {
 
     private void init() {
         SubwayInitialMaker subwayInitialMaker = new SubwayInitialMaker();
-        subwayInitialMaker.madeLine("2호선");
-        subwayInitialMaker.madeLine("3호선");
-        subwayInitialMaker.madeLine("신분당선");
+        subwayInitialMaker.madeLine(Line.SECOND_LINE);
+        subwayInitialMaker.madeLine(Line.THIRD_LINE);
+        subwayInitialMaker.madeLine(Line.NEW_BUNDANG_LINE);
         stationRelation = new StationRelation();
     }
 

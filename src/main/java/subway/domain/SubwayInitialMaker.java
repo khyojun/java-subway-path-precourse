@@ -5,36 +5,45 @@ import java.util.List;
 
 public class SubwayInitialMaker {
 
-    private static final List<String> secondStation = List.of("교대역", "강남역", "역삼역");
-    private static final List<String> thirdStation = List.of("교대역", "남부터미널역", "양재역", "매봉역");
-    private static final List<String> bundangStation = List.of("강남역", "양재역", "양재시민의숲역");
+    private static final List<String> secondStation = List.of(Station.EDUCATION_COLLEGE,
+        Station.GANGNAM, Station.YEOKSAM);
+    private static final List<String> thirdStation = List.of(Station.EDUCATION_COLLEGE,
+        Station.SOUTH_TERMINAL, Station.YANGZAE, Station.MAEBONG);
+    private static final List<String> bundangStation = List.of(Station.GANGNAM, Station.YANGZAE,
+        Station.YANGZAE_FOREST);
 
     public void madeLine(String notConvertedLine) {
         Line line = new Line(notConvertedLine);
         LineRepository.addLine(line);
-        if(line.getName().equals("2호선"))
+        if (line.getName().equals(Line.SECOND_LINE)) {
             madeSecondStation(line);
-        if(line.getName().equals("3호선"))
+        }
+        if (line.getName().equals(Line.THIRD_LINE)) {
             madeThirdStation(line);
-        if(line.getName().equals("신분당선"))
-            madeBundangStation(line);
+        }
+        if (line.getName().equals(Line.NEW_BUNDANG_LINE)) {
+            madeNewBundangStation(line);
+        }
     }
 
-    private void madeBundangStation(Line line) {
-        SubwayInfoRepository.madeInitLine(line, new ArrayList<Station>());
-        for(String station : bundangStation)
+    private void madeNewBundangStation(Line line) {
+        SubwayInfoRepository.madeInitLine(line, new ArrayList<>());
+        for (String station : bundangStation) {
             SubwayInfoRepository.addSubwayInfo(line, new Station(station));
+        }
     }
 
     private void madeThirdStation(Line line) {
-        SubwayInfoRepository.madeInitLine(line, new ArrayList<Station>());
-        for(String station : thirdStation)
+        SubwayInfoRepository.madeInitLine(line, new ArrayList<>());
+        for (String station : thirdStation) {
             SubwayInfoRepository.addSubwayInfo(line, new Station(station));
+        }
     }
 
     private void madeSecondStation(Line line) {
-        SubwayInfoRepository.madeInitLine(line, new ArrayList<Station>());
-        for(String station : secondStation)
+        SubwayInfoRepository.madeInitLine(line, new ArrayList<>());
+        for (String station : secondStation) {
             SubwayInfoRepository.addSubwayInfo(line, new Station(station));
+        }
     }
 }

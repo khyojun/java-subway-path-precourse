@@ -2,7 +2,6 @@ package subway.domain;
 
 public class TravelStation {
 
-    private StationRelation stationRelation;
     private Station start;
     private Station dest;
 
@@ -14,7 +13,7 @@ public class TravelStation {
     }
 
     private void checkStation(String start, String dest) {
-        if(!SubwayInfoRepository.isStationPresent(start) && !SubwayInfoRepository.isStationPresent(dest)){
+        if(isNoPresentStation(start, dest)){
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 역을 작성하셨습니다!");
         }
         if(start.equals(dest)){
@@ -22,12 +21,9 @@ public class TravelStation {
         }
     }
 
-    public Station getStart() {
-        return start;
-    }
-
-    public Station getDest() {
-        return dest;
+    private static boolean isNoPresentStation(String start, String dest) {
+        return !SubwayInfoRepository.isStationPresent(start)
+            || !SubwayInfoRepository.isStationPresent(dest);
     }
 
     public TravelResult shortestDistance(StationRelation stationRelation) {
