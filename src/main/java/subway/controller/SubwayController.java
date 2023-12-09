@@ -1,16 +1,6 @@
 package subway.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
-import subway.domain.Line;
-import subway.domain.LineRepository;
-import subway.domain.Station;
 import subway.domain.StationRelation;
-import subway.domain.StationRepository;
-import subway.domain.SubwayInfoRepository;
 import subway.domain.SubwayInitialMaker;
 import subway.view.InputView;
 import subway.view.OutputView;
@@ -38,10 +28,23 @@ public class SubwayController {
     public void trainStart() {
 
         while(isStart()){
+            while(!functionList().equals("B")){
 
+            }
         }
 
 
+    }
+
+    private String functionList() {
+        try {
+            outputView.featureList();
+            String feature = inputView.feature();
+            return feature;
+        }catch (IllegalArgumentException error){
+            outputView.printError(error.getMessage());
+            return functionList();
+        }
     }
 
     private boolean isStart() {
