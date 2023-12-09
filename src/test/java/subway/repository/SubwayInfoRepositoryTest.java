@@ -1,5 +1,6 @@
 package subway.repository;
 
+import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -22,11 +23,11 @@ public class SubwayInfoRepositoryTest {
     @Test
     void testSave(){
         Line line = new Line("2");
-        SubwayInfoRepository.addSubwayInfo(line, new Station("hi"));
+        SubwayInfoRepository.addSubwayInfo(line, (Station) List.of(new Station("hi")));
 
-        Map<Line, Station> subways =
+        Map<Line, List<Station>> subways =
             SubwayInfoRepository.subways();
-        Assertions.assertThat(subways.get(line).getName()).isEqualTo("hi");
+        Assertions.assertThat(subways.get(line).get(0)).isEqualTo("hi");
     }
 
 }

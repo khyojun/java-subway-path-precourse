@@ -1,5 +1,6 @@
 package subway.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,25 +13,28 @@ public class SubwayInitialMaker {
     public void madeLine(String notConvertedLine) {
         Line line = new Line(notConvertedLine);
         LineRepository.addLine(line);
-        if(line.getName().equals("2"))
+        if(line.getName().equals("2호선"))
             madeSecondStation(line);
-        if(line.getName().equals("3"))
+        if(line.getName().equals("3호선"))
             madeThirdStation(line);
         if(line.getName().equals("신분당선"))
             madeBundangStation(line);
     }
 
     private void madeBundangStation(Line line) {
+        SubwayInfoRepository.madeInitLine(line, new ArrayList<Station>());
         for(String station : bundangStation)
             SubwayInfoRepository.addSubwayInfo(line, new Station(station));
     }
 
     private void madeThirdStation(Line line) {
+        SubwayInfoRepository.madeInitLine(line, new ArrayList<Station>());
         for(String station : thirdStation)
             SubwayInfoRepository.addSubwayInfo(line, new Station(station));
     }
 
     private void madeSecondStation(Line line) {
+        SubwayInfoRepository.madeInitLine(line, new ArrayList<Station>());
         for(String station : secondStation)
             SubwayInfoRepository.addSubwayInfo(line, new Station(station));
     }
