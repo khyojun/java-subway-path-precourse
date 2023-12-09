@@ -27,7 +27,6 @@ public class OutputView {
     private static OutputView instance = new OutputView();
 
 
-
     private OutputView() {
     }
 
@@ -71,16 +70,16 @@ public class OutputView {
     public void printResult(TravelResult travelResult) {
         print(FIND_RESULT_NOTI);
         print(INFO_FORM);
-        print(String.format(INFO_DISTANCE, travelResult.getShortestPath()));
-        print(String.format(INFO_TIME, travelResult.getShortestTime()));
+        print(String.format(INFO_DISTANCE, travelResult.shortestPath()));
+        print(String.format(INFO_TIME, travelResult.shortestTime()));
         print(INFO_FORM);
-        printRoute(travelResult.getRoute());
+        printRoute(travelResult.route());
         printEnter();
     }
 
-    private void printRoute(List<String> route){
+    private void printRoute(List<String> route) {
         for (String station : route) {
-            print(String.format(INFO_ROUTE,station));
+            print(String.format(INFO_ROUTE, station));
         }
     }
 }

@@ -1,5 +1,8 @@
 package subway.controller;
 
+import subway.constant.ErrorMessage;
+import subway.constant.FeatureInputConstant;
+import subway.constant.MainMenuInputConstant;
 import subway.domain.Line;
 import subway.domain.TravelResult;
 import subway.domain.TravelStation;
@@ -13,6 +16,7 @@ public class SubwayController {
     private final InputView inputView;
     private final OutputView outputView;
     private StationRelation stationRelation;
+
     public SubwayController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
@@ -29,28 +33,34 @@ public class SubwayController {
 
 
     public void trainStart() {
-
-        while(isStart()){
-            String function = functionList();
-            if(isNotBackWard(function)){
-                TravelResult travelResult = showResult(function);
-                outputView.printResult(travelResult);
-            }
+        while (isStart()) {
+            TravelResult travelResult = travelProcess();
+            outputView.printResult(travelResult);
         }
     }
 
-    private TravelResult showResult(String function) {
+
+
+    private TravelResult travelProcess() {
         try {
-            TravelStation travelStation = inputSubwayTravel();
-            if (function.equals("1"))
-                return travelStation.shortestDistance(stationRelation);
-            if (function.equals("2"))
-                return travelStation.shortestTime(stationRelation);
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력입니다.");
-        }catch (IllegalArgumentException error){
+            String feature = featureInput();
+            if (isNotBackWard(feature)) {
+                return calculateTravelResult(feature);
+            }
+            throw new IllegalArgumentException(ErrorMessage.INVALID_RESULT.getMessage());
+        } catch (IllegalArgumentException error) {
             outputView.printError(error.getMessage());
-            return showResult(function);
+            return travelProcess();
         }
+    }
+
+    private TravelResult calculateTravelResult(String feature) {
+        TravelStation travelStation = inputSubwayTravel();
+        if (feature.equals(FeatureInputConstant.SHORTEST_PATH.getIn()))
+            return travelStation.shortestDistance(stationRelation);
+        if (feature.equals(FeatureInputConstant.SHORTEST_TIME.getIn()))
+            return travelStation.shortestTime(stationRelation);
+        throw new IllegalArgumentException(ErrorMessage.INVALID_RESULT.getMessage());
     }
 
     private TravelStation inputSubwayTravel() {
@@ -60,37 +70,35 @@ public class SubwayController {
             outputView.printDestStation();
             String dest = inputView.destStation();
             return new TravelStation(start, dest);
-        }catch (IllegalArgumentException error){
-            outputView.printError(error.getMessage());
-            return inputSubwayTravel();
+        } catch (IllegalArgumentException error) {
+            throw new IllegalArgumentException(error.getMessage());
         }
     }
 
     private static boolean isNotBackWard(String function) {
-        return !function.equals("B");
+        return !function.equals(FeatureInputConstant.BACKWARD.getIn());
     }
 
-    private String functionList() {
+    private String featureInput() {
         try {
             outputView.featureList();
             String feature = inputView.feature();
             return feature;
-        }catch (IllegalArgumentException error){
+        } catch (IllegalArgumentException error) {
             outputView.printError(error.getMessage());
-            return functionList();
+            return featureInput();
         }
     }
 
     private boolean isStart() {
-        return !choiceMainMenu().equals("Q");
+        return !choiceMainMenu().equals(MainMenuInputConstant.QUIT.getIn());
     }
 
     private String choiceMainMenu() {
         try {
             outputView.mainMenu();
-            String inputMainChoice = inputView.mainChoice();
-            return inputMainChoice;
-        }catch (IllegalArgumentException error){
+            return inputView.mainChoice();
+        } catch (IllegalArgumentException error) {
             outputView.printError(error.getMessage());
             return choiceMainMenu();
         }

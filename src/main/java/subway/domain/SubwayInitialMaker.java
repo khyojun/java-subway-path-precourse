@@ -30,6 +30,7 @@ public class SubwayInitialMaker {
         SubwayInfoRepository.madeInitLine(line, new ArrayList<>());
         for (String station : bundangStation) {
             SubwayInfoRepository.addSubwayInfo(line, new Station(station));
+            StationRepository.addStation(new Station(station));
         }
     }
 
@@ -37,6 +38,7 @@ public class SubwayInitialMaker {
         SubwayInfoRepository.madeInitLine(line, new ArrayList<>());
         for (String station : thirdStation) {
             SubwayInfoRepository.addSubwayInfo(line, new Station(station));
+            StationRepository.addStation(new Station(station));
         }
     }
 
@@ -44,6 +46,7 @@ public class SubwayInitialMaker {
         SubwayInfoRepository.madeInitLine(line, new ArrayList<>());
         for (String station : secondStation) {
             SubwayInfoRepository.addSubwayInfo(line, new Station(station));
+            StationRepository.addStation(new Station(station));
         }
     }
 }

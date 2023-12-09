@@ -1,9 +1,11 @@
 package subway.domain;
 
+import subway.constant.ErrorMessage;
+
 public class TravelStation {
 
-    private Station start;
-    private Station dest;
+    private final Station start;
+    private final Station dest;
 
 
     public TravelStation(String start, String dest) {
@@ -13,11 +15,11 @@ public class TravelStation {
     }
 
     private void checkStation(String start, String dest) {
-        if(isNoPresentStation(start, dest)){
-            throw new IllegalArgumentException("[ERROR] 유효하지 않은 역을 작성하셨습니다!");
+        if (isNoPresentStation(start, dest)) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_INPUT_STATION.getMessage());
         }
-        if(start.equals(dest)){
-            throw new IllegalArgumentException("[ERROR] 출발역과 도착역이 동일합니다!");
+        if (start.equals(dest)) {
+            throw new IllegalArgumentException(ErrorMessage.SAME_START_DEST.getMessage());
         }
     }
 
@@ -31,6 +33,6 @@ public class TravelStation {
     }
 
     public TravelResult shortestTime(StationRelation stationRelation) {
-        return stationRelation.shortestTime(start,dest);
+        return stationRelation.shortestTime(start, dest);
     }
 }
