@@ -14,6 +14,9 @@ public class StationRelation {
     private final WeightedMultigraph<String, DefaultWeightedEdge> graphDistance = new WeightedMultigraph(DefaultWeightedEdge.class);
     private final WeightedMultigraph<String, DefaultWeightedEdge> time = new WeightedMultigraph(DefaultWeightedEdge.class);
 
+    private GraphPath<String, DefaultWeightedEdge> shortestPath;
+
+    private GraphPath<String, DefaultWeightedEdge> shortestTime;
 
     public StationRelation() {
         madeBetweenStationRelation();
@@ -45,6 +48,8 @@ public class StationRelation {
 //        System.out.println("shortestPath.getWeight() = " + shortestPath.getWeight());
     }
 
+
+
     private void madeBundangInfo() {
         graphDistance.setEdgeWeight(graphDistance.addEdge("강남역", "양재역"), 2);
         time.setEdgeWeight(time.addEdge("강남역", "양재역"), 8);
@@ -72,8 +77,51 @@ public class StationRelation {
         time.setEdgeWeight(time.addEdge("강남역", "역삼역"), 3);
     }
 
+    // 그냥 경로 없으면  null 터져버림 이거 try catch
 
+    public TravelResult shortestDistance(Station start, Station dest) {
+        try {
+            DijkstraShortestPath<String, DefaultWeightedEdge> dijkstraShortestPath = new DijkstraShortestPath<>(
+                graphDistance);
+            shortestPath = dijkstraShortestPath.getPath(
+                start.getName(), dest.getName());
 
+            List<String> route = shortestPath.getVertexList();
+            int byDistanceTime = calculateRouteByTime(route);
+           return new TravelResult((int) shortestPath.getWeight(), byDistanceTime, route);
+        }catch (NullPointerException error){
+            throw new IllegalArgumentException("[ERROR] 해당 두 역은 연결되어있지 않습니다.");
+        }
+    }
 
+    private int calculateRouteByTime(List<String> route) {
+        int sum=0;
+        for(int i=0; i<route.size()-1; i++){
+            sum += time.getEdgeWeight(time.getEdge(route.get(i),route.get(i+1)));
+        }
+        return sum;
+    }
 
+    private int calculateRouteByDistance(List<String> route) {
+        int sum=0;
+        for(int i=0; i<route.size()-1; i++){
+            sum += graphDistance.getEdgeWeight(graphDistance.getEdge(route.get(i),route.get(i+1)));
+        }
+        return sum;
+    }
+
+    public TravelResult shortestTime(Station start, Station dest) {
+        try {
+            DijkstraShortestPath<String, DefaultWeightedEdge> dijkstraShortestTime = new DijkstraShortestPath<>(
+                time);
+            shortestTime = dijkstraShortestTime.getPath(
+                start.getName(), dest.getName());
+            List<String> route = shortestTime.getVertexList();
+            int byTimeDistance = calculateRouteByDistance(route);
+            return new TravelResult(byTimeDistance, (int) shortestTime.getWeight(),
+                route);
+        }catch (NullPointerException error){
+            throw new IllegalArgumentException("[ERROR] 해당 두 역은 연결되어있지 않습니다!");
+        }
+    }
 }

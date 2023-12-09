@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 public class SubwayInfoRepository {
 
     private static Map<Line, List<Station>> subwayInfo = new HashMap<>();
@@ -22,7 +24,13 @@ public class SubwayInfoRepository {
     public static List<Station> findByLineName(String name){
         return subwayInfo.entrySet().stream()
             .filter(subwayInfo -> subwayInfo.getKey().getName().equals(name))
-            .findAny().map(entry -> entry.getValue()).orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 호선이 없습니다."));
+            .findAny().map(entry -> entry.getValue()).orElseThrow(() -> new IllegalArgumentException("[ERROR] 해당 역이 없습니다."));
+    }
+
+    public static boolean isStationPresent(String name){
+        return subwayInfo.values().stream()
+            .flatMap(List::stream) // 각 라인의 역 목록을 평면화
+            .anyMatch(station -> station.getName().equals(name));
     }
 
 

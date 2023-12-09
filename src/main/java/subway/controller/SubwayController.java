@@ -1,5 +1,7 @@
 package subway.controller;
 
+import subway.domain.TravelResult;
+import subway.domain.TravelStation;
 import subway.domain.StationRelation;
 import subway.domain.SubwayInitialMaker;
 import subway.view.InputView;
@@ -28,12 +30,43 @@ public class SubwayController {
     public void trainStart() {
 
         while(isStart()){
-            while(!functionList().equals("B")){
-
+            String function = functionList();
+            if(isNotBackWard(function)){
+                TravelResult travelResult = showResult(function);
+                outputView.printResult(travelResult);
             }
         }
+    }
 
+    private TravelResult showResult(String function) {
+        try {
+            TravelStation travelStation = inputSubwayTravel();
+            if (function.equals("1"))
+                return travelStation.shortestDistance(stationRelation);
+            if (function.equals("2"))
+                return travelStation.shortestTime(stationRelation);
+            throw new IllegalArgumentException("[ERROR] 유효하지 않은 입력입니다.");
+        }catch (IllegalArgumentException error){
+            outputView.printError(error.getMessage());
+            return showResult(function);
+        }
+    }
 
+    private TravelStation inputSubwayTravel() {
+        try {
+            outputView.printStartStation();
+            String start = inputView.startStation();
+            outputView.printDestStation();
+            String dest = inputView.destStation();
+            return new TravelStation(start, dest);
+        }catch (IllegalArgumentException error){
+            outputView.printError(error.getMessage());
+            return inputSubwayTravel();
+        }
+    }
+
+    private static boolean isNotBackWard(String function) {
+        return !function.equals("B");
     }
 
     private String functionList() {

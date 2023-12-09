@@ -23,4 +23,12 @@ public class InputView {
             return input;
         throw new IllegalArgumentException("[ERROR] 기능 입력이 유효하지 않습니다. 다시 입력해주세요 !");
     }
+
+    public String startStation() {
+        return scanner.nextLine();
+    }
+
+    public String destStation() {
+        return scanner.nextLine();
+    }
 }
