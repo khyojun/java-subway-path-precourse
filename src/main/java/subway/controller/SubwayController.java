@@ -3,6 +3,7 @@ package subway.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 import subway.domain.Line;
 import subway.domain.LineRepository;
@@ -36,8 +37,25 @@ public class SubwayController {
 
     public void trainStart() {
 
+        while(isStart()){
+
+        }
 
 
+    }
 
+    private boolean isStart() {
+        return !choiceMainMenu().equals("Q");
+    }
+
+    private String choiceMainMenu() {
+        try {
+            outputView.mainMenu();
+            String inputMainChoice = inputView.mainChoice();
+            return inputMainChoice;
+        }catch (IllegalArgumentException error){
+            outputView.printError(error.getMessage());
+            return choiceMainMenu();
+        }
     }
 }

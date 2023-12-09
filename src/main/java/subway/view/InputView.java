@@ -10,4 +10,10 @@ public class InputView {
         this.scanner = scanner;
     }
 
+    public String mainChoice() {
+        String input = scanner.nextLine();
+        if(input.equals("1") || input.equals("Q"))
+            return input;
+        throw new IllegalArgumentException("[ERROR] 메인 메뉴 입력이 유효하지 않습니다. 다시 입력해주세요 !");
+    }
 }
