@@ -1,14 +1,13 @@
 package subway.view;
 
+import java.util.Scanner;
+
 public class InputView {
 
-    private static InputView instance = new InputView();
+    private final Scanner scanner;
 
-
-    private InputView() {
+    public InputView(Scanner scanner) {
+        this.scanner = scanner;
     }
 
-    public static InputView getInstance() {
-        return instance;
-    }
 }
