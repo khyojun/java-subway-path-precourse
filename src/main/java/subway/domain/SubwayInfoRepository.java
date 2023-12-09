@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-
 public class SubwayInfoRepository {
 
     private static Map<Line, List<Station>> subwayInfo = new HashMap<>();
@@ -40,5 +38,16 @@ public class SubwayInfoRepository {
 
     public static void madeInitLine(Line line, ArrayList<Station> stations) {
         subwayInfo.put(line, stations);
+    }
+
+    public static List<String> findAllStationName(){
+        List<String> allStationName = new ArrayList<>();
+        for (Line line : subwayInfo.keySet()) {
+            SubwayInfoRepository.findByLineName(line.getName())
+                .stream()
+                .map(Station::getName)
+                .forEach(allStationName::add);
+        }
+        return allStationName;
     }
 }

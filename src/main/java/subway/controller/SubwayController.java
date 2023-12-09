@@ -7,6 +7,7 @@ import java.util.Scanner;
 import subway.domain.Line;
 import subway.domain.LineRepository;
 import subway.domain.Station;
+import subway.domain.StationRelation;
 import subway.domain.StationRepository;
 import subway.domain.SubwayInfoRepository;
 import subway.domain.SubwayInitialMaker;
@@ -17,6 +18,7 @@ public class SubwayController {
 
     private final InputView inputView;
     private final OutputView outputView;
+    private StationRelation stationRelation;
     public SubwayController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
@@ -28,13 +30,14 @@ public class SubwayController {
         subwayInitialMaker.madeLine("2호선");
         subwayInitialMaker.madeLine("3호선");
         subwayInitialMaker.madeLine("신분당선");
+        stationRelation = new StationRelation();
     }
 
 
     public void trainStart() {
-//        List<Station> byLineName = SubwayInfoRepository.findByLineName("신분당선");
-//        for (Station station : byLineName) {
-//            System.out.println(station.getName());
-//        }
+
+
+
+
     }
 }
